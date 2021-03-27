@@ -1,0 +1,27 @@
+---
+- hosts: all
+  gather_facts: False
+
+  tasks:
+    - name: read csv file
+      read_csv:
+        path: "{{ nat_table_file }}"
+        fieldnames: ip_addr,nat_addr
+      register: nat_table
+
+    - name: render config
+      set_fact:
+        fw_config: "{{ lookup('template', './nat-mapping.j2') }}"
+
+    - debug: var=nat_table
+
+    - name: write config
+      local_action:
+        module: copy
+        content: "{{ fw_config }}"
+        dest: ./out/config
+
+    - name: deploy config
+      asa_command:
+        commands: "{{ fw_config.split('\n') }}"
+

@@ -1,0 +1,15 @@
+---
+all:
+  hosts:
+    firewall:
+      ansible_host: 172.16.1.151
+      ansible_user: admin0
+      ansible_password: cisco123
+      ansible_connection: network_cli
+      ansible_network_os: asa
+      ansible_become: true
+      ansible_become_method: enable
+      ansible_become_password: cisco123
+
+      nat_table_file: nat-table.csv
+

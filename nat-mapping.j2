@@ -1,0 +1,10 @@
+{# Template for repetitive ip-nat addr mappings on firewall #}
+conf t
+{% for row in nat_table['list'][1:] %}
+object network {{ row.ip_addr }}-obj1
+host {{ row.ip_addr }}
+nat (inside,outside) static {{ row.nat_addr }}
+
+{% endfor %}
+end
+
